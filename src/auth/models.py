@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, JSON, MetaData, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, JSON, MetaData, ForeignKey, Boolean
 
 metadata = MetaData()
 
@@ -20,7 +20,10 @@ user = Table(
     Column("name", String, nullable=False),
     Column("surname", String, nullable=False),
     Column("username", String, nullable=False),
-    Column("password", String, nullable=False),
+    Column("hashed_password", String, nullable=False),
     Column("registered_at", TIMESTAMP, default=datetime.utcnow()),
-    Column("role_id", Integer, ForeignKey("role.id"))
+    Column("role_id", Integer, ForeignKey(role.c.id)),
+    Column("is_active", Boolean, default=True, nullable=False),
+    Column("is_superuser", Boolean, default=False, nullable=False),
+    Column("is_verified", Boolean, default=False, nullable=False)
 )
