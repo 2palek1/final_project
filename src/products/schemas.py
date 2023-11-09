@@ -1,5 +1,5 @@
-from typing import List
 from pydantic import BaseModel
+
 
 class ProductSchema(BaseModel):
     name: str
