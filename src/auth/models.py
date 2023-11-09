@@ -54,9 +54,8 @@ user_address = Table(
 class User(SQLAlchemyBaseUserTable[int], Base):
     id = Column("id", Integer, primary_key=True)
     email = Column("email", String, nullable=False)
-    name = Column("name", String, nullable=False)
-    surname = Column("surname", String, nullable=False)
     username = Column("username", String, nullable=False)
+    phone_number = Column("phone_number", String, nullable=False)
     registered_at = Column("registered_at", TIMESTAMP, default=datetime.utcnow())
     role_id = Column("role_id", Integer, ForeignKey(role.c.id))
     hashed_password: str = Column(String(length=1024), nullable=False)
