@@ -6,7 +6,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_async_session
 from src.products.models import product_item, product
+
 from src.products.productscheme import ProductSchema, ProductItemSchema
+
+from src.products.schemas import ProductSchema, ProductItemSchema
+
 
 
 router = APIRouter(
@@ -49,4 +53,8 @@ async def create_product_item(new_product_item: ProductItemSchema, session: Asyn
     stmt = insert(product_item).values(**new_product_item.dict())
     await session.execute(stmt)
     await session.commit()
+
     return {"status": 200, "data": new_product_item}
+
+    return {"status": 200, "data": new_product_item}
+

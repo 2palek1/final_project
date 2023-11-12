@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_async_session
 from src.cart.models import shopping_cart, shopping_cart_item
-from src.cart.schemas import shopping_cart_SCHEMA, shopping_cart_item_SCHEMA
+from src.cart.schema import shopping_cart_SCHEMA, shopping_cart_item_SCHEMA
 
 
 router = APIRouter(
