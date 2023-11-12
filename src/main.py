@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends
 
 from src.auth.base_config import fastapi_users, auth_backend
 from src.products.router import router as router_products
+from src.cart.router import router as router_cart
 from src.auth.schemas import UserRead, UserCreate
 
 
@@ -25,3 +26,4 @@ app.include_router(
 
 
 app.include_router(router_products)
+app.include_router(router_cart)

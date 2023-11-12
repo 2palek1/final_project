@@ -7,7 +7,7 @@ from alembic import context
 
 from src.auth.models import metadata as metadata_auth
 from src.products.models import metadata as metadata_products
-
+from src.cart.models import metadata as metadata_cart
 from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
 
 # this is the Alembic Config object, which provides
@@ -29,7 +29,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [metadata_auth, metadata_products]
+target_metadata = [metadata_auth, metadata_products, metadata_cart]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
