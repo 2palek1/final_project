@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, ForeignKey, MetaData
+from sqlalchemy import Table, Column, Integer, ForeignKey, MetaData
 
 from src.auth.models import user
 from src.products.models import product_item
