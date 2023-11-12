@@ -25,11 +25,11 @@ async def get_product(product_id: int, session: AsyncSession = Depends(get_async
             "data": product_data,
             "details": None
         }
-    except Exception:
+    except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,
-            "details": "Error"
+            "details": str(e)
         })
 
 
@@ -47,11 +47,11 @@ async def create_product(new_product: ProductSchema, new_product_item: ProductIt
             "data": [new_product, new_product_item],
             "details": None
         }
-    except Exception:
+    except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,
-            "details": None
+            "details": str(e)
         })
 
 
@@ -66,11 +66,11 @@ async def create_product_item(new_product_item: ProductItemSchema, session: Asyn
             "data": new_product_item,
             "details": None
         }
-    except Exception:
+    except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,
-            "details": None
+            "details": str(e)
          })
 
 
