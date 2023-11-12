@@ -1,28 +1,52 @@
-from fastapi import APIRouter, Depends
-from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
+from typing import List
+
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.auth.utils import get_user_db
-from productscheme import ProductSchema
-from src.auth.models import User
 from src.database import get_async_session
-
-router = APIRouter()
-
-async def get_user_db(session: AsyncSession = Depends(get_async_session)):
-    yield SQLAlchemyUserDatabase(session, User)
-
-database = []
-
-@router.post("/products/create/", response_model= ProductSchema)
-async def create_product(product: ProductSchema, user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
-    current_user = await user_db.get_by_id(1)
-    product_info = product.dict()
-    product_info["user_id"] = current_user.id
-    database.append(product_info)
-    return product
+from src.products.models import product_item, product
+from src.products.productscheme import ProductSchema, ProductItemSchema
 
 
-@router.get("/products/{product_id}", response_model=ProductSchema)
-async def get_product(product_id: int):
-    return database[product_id - 1]
+router = APIRouter(
+    prefix="/products",
+    tags=["product"]
+)
+
+
+@router.get("/")
+async def get_product(product_id: int, session: AsyncSession = Depends(get_async_session)):
+    try:
+        stmt = select(product_item).where(product_item.c.id == product_id)
+        result = await session.execute(stmt)
+        return {
+            "status": "success",
+            "data": result.all(),
+            "details": None
+        }
+    except Exception:
+        raise HTTPException(status_code=500, detail={
+            "status": "error",
+            "data": None,
+            "details": "z ndj. vfnm t,fk"
+        })
+
+
+@router.post("/create_product")
+async def create_product(new_product: ProductSchema, new_product_item: ProductItemSchema, session: AsyncSession = Depends(get_async_session)):
+    stmt = insert(product).values(**new_product.dict())
+    stmt_item = insert(product_item).values(**new_product_item.dict())
+    await session.execute(stmt)
+    await session.commit()
+    await session.execute(stmt_item)
+    await session.commit()
+    return {"status": 200, "new_product": new_product, "new_product_item": new_product_item}
+
+
+@router.post("/create_product_item")
+async def create_product_item(new_product_item: ProductItemSchema, session: AsyncSession = Depends(get_async_session)):
+    stmt = insert(product_item).values(**new_product_item.dict())
+    await session.execute(stmt)
+    await session.commit()
+    return {"status": 200, "data": new_product_item}
