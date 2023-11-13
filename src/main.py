@@ -1,10 +1,13 @@
 from fastapi import FastAPI, Depends
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 
 from src.auth.base_config import fastapi_users, auth_backend
 from src.products.router import router as router_products
 from src.cart.router import router as router_cart
 from src.auth.schemas import UserRead, UserCreate
 
+from redis import asyncio as aioredis
 
 app = FastAPI(
     title="Final Project"
@@ -27,3 +30,9 @@ app.include_router(
 
 app.include_router(router_products)
 app.include_router(router_cart)
+
+
+@app.on_event("startup")
+async def startup_event():
+    redis = aioredis.from_url("redis://localhost", encoding="UTF-8", decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
