@@ -6,7 +6,7 @@ from src.database import get_async_session
 from src.products.models import product_item, product
 
 from src.products.schemas import ProductSchema, ProductItemSchema
-
+from src.products.utils import all_to_dict
 
 router = APIRouter(
     prefix="/products",
@@ -19,10 +19,10 @@ async def get_product(product_id: int, session: AsyncSession = Depends(get_async
     try:
         stmt = select(product_item).where(product_item.c.id == product_id)
         result = await session.execute(stmt)
-        product_data = result.fetchone()
+        product_dict = all_to_dict(result)
         return {
             "status": "success",
-            "data": product_data,
+            "data": product_dict,
             "details": None
         }
     except Exception as e:
