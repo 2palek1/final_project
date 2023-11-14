@@ -1,7 +1,7 @@
 from sqlalchemy import ResultProxy
 
 
-def all_to_dict(result: ResultProxy):
+def get_product_dict(result: ResultProxy):
     product_dict = []
     for row in result.all():
         data = {
