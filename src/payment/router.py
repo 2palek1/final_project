@@ -6,12 +6,14 @@ from src.database import get_async_session
 from src.payment.models import payment_type, user_payment_method
 
 from src.payment.schemas import UserPaymentMethodSchema,PaymentTypeSchema
-from src.payment.utilis import get_order_dic,check_payment_method
+from src.payment.utils import get_order_dic,check_payment_method
+
 
 router = APIRouter(
     prefix='/payment',
     tags=['payment']
 )
+
 
 @router.get("/get_payment_methods/{user_id}", response_model=list[UserPaymentMethodSchema])
 async def get_payment_methods(user_id: int, session: AsyncSession = Depends(get_async_session)):
@@ -30,6 +32,7 @@ async def get_payment_methods(user_id: int, session: AsyncSession = Depends(get_
     except HTTPException as e:
         raise e
 
+
 @router.post("/add_payment_method", response_model=UserPaymentMethodSchema)
 async def add_payment_method(payment_method: UserPaymentMethodSchema, session: AsyncSession = Depends(get_async_session)):
     try:
@@ -45,6 +48,7 @@ async def add_payment_method(payment_method: UserPaymentMethodSchema, session: A
         }
     except HTTPException as e:
         raise e
+
 
 @router.get("/get_payment_types", response_model=list[PaymentTypeSchema])
 async def get_payment_types(session: AsyncSession = Depends(get_async_session)):
