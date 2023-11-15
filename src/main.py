@@ -5,7 +5,9 @@ from fastapi_cache.backends.redis import RedisBackend
 from src.auth.base_config import fastapi_users, auth_backend
 from src.products.router import router as router_products
 from src.cart.router import router as router_cart
+from src.payment.router import router as router_payment
 from src.auth.schemas import UserRead, UserCreate
+from src.pages.router import router as router_pages
 
 from redis import asyncio as aioredis
 
@@ -30,6 +32,8 @@ app.include_router(
 
 app.include_router(router_products)
 app.include_router(router_cart)
+app.include_router(router_pages)
+app.include_router(router_payment)
 
 
 @app.on_event("startup")
