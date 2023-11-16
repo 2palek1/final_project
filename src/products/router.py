@@ -20,11 +20,38 @@ async def get_product(product_id: int, session: AsyncSession = Depends(get_async
         stmt = select(product_item).where(product_item.c.id == product_id)
         result = await session.execute(stmt)
         product_dict = get_product_dict(result)
-        return {
-            "status": "success",
-            "data": product_dict,
-            "details": None
-        }
+        if product_dict:
+            return {
+                "status": "success",
+                "data": product_dict,
+                "details": None
+            }
+        else:
+            raise HTTPException(status_code=404, detail={
+                "status": "error",
+                "data": None,
+                "details": "Product not found"
+            })
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={
+            "status": "error",
+            "data": None,
+            "details": str(e)
+        })
+
+
+@router.get("/")
+async def get_all_products(session: AsyncSession = Depends(get_async_session)):
+    try:
+        stmt = select(product_item)
+        result = await session.execute(stmt)
+        product_dict = get_product_dict(result)
+        if product_dict:
+            return {
+                "status": "success",
+                "data": product_dict,
+                "details": None
+            }
     except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": "error",
