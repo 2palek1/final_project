@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.products.router import get_all_products
+from src.products.router import get_all_products, delete_product, get_product
 
 router = APIRouter(
     prefix="/pages",
@@ -35,3 +36,6 @@ def get_users_page(request: Request):
 def get_products_page(request: Request, products=Depends(get_all_products)):
     return templates.TemplateResponse("products.html", {"request": request, "products": products["data"]})
 
+@router.get("/products/{product_id}")
+def get_search_page(request: Request, products=Depends(get_product)):
+    return templates.TemplateResponse("products.html", {"request": request, "products": products["data"]})

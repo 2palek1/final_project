@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_async_session
@@ -101,6 +101,25 @@ async def create_product(new_product_item: ProductItemSchema, session: AsyncSess
     except Exception as e:
         raise HTTPException(status_code=500, detail={
             "status": "error",
+            "data": None,
+            "details": str(e)
+        })
+
+
+@router.delete("/delete")
+async def delete_product(product_id: int, session: AsyncSession = Depends(get_async_session)):
+    try:
+        stmt = delete(product_item).where(product_item.c.id == product_id)
+        await session.execute(stmt)
+        await session.commit()
+        return {
+            "status": "success",
+            "data": product_id,
+            "details": None
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={
+            "status": "failed",
             "data": None,
             "details": str(e)
         })

@@ -5,8 +5,8 @@
 <title>Products</title>
 <script>
     const getProduct = () => {
-        const getInputValue = document.getElementById("product_id").value;
-        window.location.href = `/pages/products/`
+        const productInputValue = document.getElementById("product_id").value;
+        window.location.href = `/pages/products/${productInputValue}`
     }
 </script>
 {% endblock %}
@@ -58,7 +58,11 @@
                                 <td>{{ product_item.qty_in_stock }}</td>
                                 <td>{{ product_item.product_image }}</td>
                                 <td>{{ product_item.price }}</td>
-                                <td><button onclick="getProduct()" style="margin: 5px" type="button" class="btn btn-primary">Delete</button></td>
+                                <td>
+                                    <form method="post" action="/pages/products/delete?product_id={{ product_item.id }}">
+                                        <button type="submit" style="margin: 5px" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
