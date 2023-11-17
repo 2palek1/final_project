@@ -30,31 +30,35 @@
         <div class="col-md-9">
             <!-- Your content goes here -->
             <div class="form-group">
-                <label for="product_id">Product id:</label>
-                <input id="product_id" type="text" class="form-control" placeholder="Enter Product id">
-                <button onclick="getProduct()" type="button" class="btn btn-primary">Get</button>
+                <label for="product_id" style="margin: 5px">Product id:</label>
+                <input id="product_id" type="text" class="form-control" style="margin: 5px" placeholder="Enter Product id">
+                <button onclick="getProduct()" style="margin: 5px" type="button" class="btn btn-primary">Get</button>
             </div>
                 <table class="table table-bordered">
                     <!-- Use a table for better structure and display of product data -->
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Product ID</th>
-                            <th>SKU</th>
+                            <th>Category</th>
+                            <th>Name</th>
+                            <th>Description</th>
                             <th>Quantity</th>
                             <th>Image</th>
                             <th>Price</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for product_item in products %}
                             <tr>
                                 <td>{{ product_item.id }}</td>
-                                <td>{{ product_item.product_id }}</td>
-                                <td>{{ product_item.SKU }}</td>
+                                <td>{{ product_item.category }}</td>
+                                <td>{{ product_item.name }}</td>
+                                <td>{{ product_item.description }}</td>
                                 <td>{{ product_item.qty_in_stock }}</td>
                                 <td>{{ product_item.product_image }}</td>
                                 <td>{{ product_item.price }}</td>
+                                <td><button onclick="getProduct()" style="margin: 5px" type="button" class="btn btn-primary">Delete</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>
