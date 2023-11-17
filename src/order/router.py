@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.order.utilis import get_order_dict
-from src.order.models import shop_order, order_status, shipping_method
-from src.order.schemas import shop_order_schema, order_status_schema, shipping_method_schema
+from src.order.models import shop_order
+from src.order.schemas import shop_order_schema
 from src.database import get_async_session
-from sqlalchemy import select, insert, delete
+from sqlalchemy import insert
 
 router = APIRouter()
 
@@ -40,9 +40,10 @@ async def read_order(order_id: int, session: AsyncSession = Depends(get_async_se
     return order_data
 
 @router.get("/order_list", response_model=list[shop_order_schema])
-async def get_order_list(session: AsyncSession = Depends(get_async_session())):
+async def get_order_list(session: AsyncSession = Depends(get_async_session)):
     stmt = shop_order.select()
     result = await session.execute(stmt)
     order_list = get_order_dict(result)
 
     return order_list
+
