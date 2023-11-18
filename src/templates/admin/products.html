@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+<title>Products</title>
+<script>
+    const getProduct = async () => {
+        const productInputValue = document.getElementById("product_id").value;
+
+        const response = await fetch(`/pages/products/${productInputValue}`);
+
+        try {
+            if (response.status === 404) {
+                // Если продукт не существует, показываем сообщение об ошибке
+                alert("Продукт не существует");
+            } else if (response.ok) {
+                // Если запрос выполнен успешно, перенаправляем пользователя
+                window.location.href = `/pages/products/${productInputValue}`;
+            } else {
+                // Если сервер вернул ошибку, показываем сообщение об ошибке
+                const responseData = await response.json();
+                alert(responseData.detail.details || "Произошла ошибка");
+            }
+        } catch (error) {
+            // В случае ошибки при парсинге JSON или других ошибок
+            alert("Произошла ошибка при обработке ответа");
+        }
+    };
+
+    const openCreateProductModal = () => {
+        const modal = document.getElementById('createProductModal');
+        modal.style.display = 'block';
+    };
+
+    const closeCreateProductModal = () => {
+        const modal = document.getElementById('createProductModal');
+        modal.style.display = 'none';
+    };
+
+    const submitCreateProductForm = async () => {
+        const productData = {
+            category_id: document.getElementById('category_id').value,
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            qty_in_stock: document.getElementById('qty_in_stock').value,
+            product_image: document.getElementById('product_image').value,
+            price: document.getElementById('price').value
+        };
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/products/create_product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(productData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.status === 'success') {
+                    alert('Product created successfully!');
+                    closeCreateProductModal();
+                } else {
+                    alert('Failed to create product. Please try again.');
+                }
+            } else {
+                const errorData = await response.json();
+                alert(`Error creating product: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        }
+    };
+</script>
+{% endblock %}
+
+
+{% block content %}
+    <!-- Specific content for the user page goes here -->
+ <div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="/pages/admin" class="list-group-item list-group-item-action">Dashboard</a>
+                <a href="/pages/users" class="list-group-item list-group-item-action">Users</a>
+                <a href="/pages/products" class="list-group-item list-group-item-action active" aria-current="true">
+                    Products
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Orders</a>
+                <a href="#" class="list-group-item list-group-item-action">Settings</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <!-- Your content goes here -->
+            <div class="form-group">
+                <label for="product_id" style="margin: 5px">Product id:</label>
+                <input id="product_id" type="text" class="form-control" style="margin: 5px" placeholder="Enter Product id">
+                <button onclick="getProduct()" style="margin: 5px" type="button" class="btn btn-primary">Get</button>
+                <button onclick="openCreateProductModal()" style="margin: 5px" type="button" class="btn btn-success">Add</button>
+            </div>
+                <table class="table table-bordered">
+                    <!-- Use a table for better structure and display of product data -->
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product_item in products %}
+                            <tr>
+                                <td>{{ product_item.id }}</td>
+                                <td>{{ product_item.category }}</td>
+                                <td>{{ product_item.name }}</td>
+                                <td>{{ product_item.description }}</td>
+                                <td>{{ product_item.qty_in_stock }}</td>
+                                <td>{{ product_item.product_image }}</td>
+                                <td>{{ product_item.price }}</td>
+                                <td>
+                                    <form method="post" action="/pages/products/delete?product_id={{ product_item.id }}">
+                                        <button type="submit" style="margin: 5px" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+    </div>
+     <!-- Add the modal for creating a new product -->
+<div id="createProductModal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeCreateProductModal()" class="close">&times;</span>
+        <h2>Create New Product</h2>
+        <!-- Add your form for creating a new product here -->
+        <form id="createProductForm" onsubmit="submitCreateProductForm(); return false;">
+            <!-- Add your form fields here (category_id, name, description, qty_in_stock, product_image, price) -->
+            <label for="category_id">Category ID:</label>
+            <input type="text" id="category_id" name="category_id" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+            <label for="qty_in_stock">Qty:</label>
+            <input type="text" id="qty_in_stock" name="qty_in_stock" required>
+            <label for="product_image">Product Image:</label>
+            <input type="text" id="product_image" name="product_image" required>
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" required>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

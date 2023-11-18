@@ -1,0 +1,99 @@
+/* Add some styling to improve the overall appearance */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.list-group-item {
+    background-color: #007bff;
+    color: #ffffff;
+    z-index: 1; /* Ensure the Products button stays below the modal */
+}
+
+.list-group-item:hover {
+    background-color: #0056b3;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+/* Style the modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2; /* Ensure the modal appears above the Products button */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Center the modal vertically and horizontally */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;  /* Adjusted margin to make the modal higher on the screen */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    max-height: 80vh; /* Set maximum height to make it not scrollable */
+    overflow-y: auto; /* Add overflow-y property to allow vertical scrolling within the modal */
+    border-radius: 10px;
+}
+
+/* Center the close button */
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Adjust the width of the modal based on screen size */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 80%;
+    }
+}
+
+/* Style each form field to take 100% width */
+.modal-content label,
+.modal-content input,
+.modal-content button {
+    width: 100%;
+    margin: 5px;
+}
