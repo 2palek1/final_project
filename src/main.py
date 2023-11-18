@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi.staticfiles import StaticFiles
 
 from src.auth.base_config import fastapi_users, auth_backend
 from src.products.router import router as router_products
@@ -14,6 +15,10 @@ from redis import asyncio as aioredis
 app = FastAPI(
     title="Final Project"
 )
+
+
+# Mount the "styles" directory as a static directory
+app.mount("/pages/styles", StaticFiles(directory=str("src/templates/styles")), name="styles")
 
 
 app.include_router(
