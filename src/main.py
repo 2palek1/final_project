@@ -8,7 +8,8 @@ from src.products.router import router as router_products
 from src.cart.router import router as router_cart
 from src.payment.router import router as router_payment
 from src.auth.schemas import UserRead, UserCreate
-from src.pages.router import router as router_pages
+from src.pages.router_admin import router as router_pages
+
 
 from redis import asyncio as aioredis
 
@@ -31,6 +32,12 @@ app.include_router(
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
+    tags=["auth"],
+)
+
+app.include_router(
+    fastapi_users.get_users_router(UserRead, UserCreate),
+    prefix="/auth/users",
     tags=["auth"],
 )
 
