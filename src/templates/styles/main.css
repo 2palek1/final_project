@@ -1,0 +1,30 @@
+a {
+    font-size:14px;
+    font-weight:700
+    }
+.superNav {
+    font-size:13px;
+}
+
+.form-control {
+    outline:none !important;
+    box-shadow: none !important;
+}
+
+@media screen and (max-width:540px){
+    .centerOnMobile {
+    text-align:center
+    }
+}
+
+  /* Adjust the width of the carousel container */
+  #carousel-container {
+    max-width: 1300px; /* Set your desired maximum width */
+    margin: auto; /* Center the container */
+  }
+
+  /* Adjust the width of the carousel images */
+  #demo .carousel-inner img {
+    width: 100%; /* Set the width to 100% to make them responsive */
+    height: auto; /* Maintain the aspect ratio */
+  }

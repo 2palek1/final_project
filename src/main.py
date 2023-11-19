@@ -9,7 +9,7 @@ from src.cart.router import router as router_cart
 from src.payment.router import router as router_payment
 from src.auth.schemas import UserRead, UserCreate
 from src.pages.router_admin import router as router_pages
-
+from src.pages.router_front import router as router_front
 
 from redis import asyncio as aioredis
 
@@ -20,6 +20,9 @@ app = FastAPI(
 
 # Mount the "styles" directory as a static directory
 app.mount("/pages/styles", StaticFiles(directory=str("src/templates/styles")), name="styles")
+# Mount the "styles" directory as a static directory
+app.mount("/main/styles", StaticFiles(directory=str("src/templates/styles")), name="styles")
+app.mount("/main/static", StaticFiles(directory=str("src/static")), name="static")
 
 
 app.include_router(
@@ -46,6 +49,7 @@ app.include_router(router_products)
 app.include_router(router_cart)
 app.include_router(router_pages)
 app.include_router(router_payment)
+app.include_router(router_front)
 
 
 @app.on_event("startup")
