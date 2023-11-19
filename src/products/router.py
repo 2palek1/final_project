@@ -106,7 +106,7 @@ async def create_product(new_product_item: ProductItemSchema, session: AsyncSess
         })
 
 
-@router.delete("/delete")
+@router.delete("/delete/{product_id}")
 async def delete_product(product_id: int, session: AsyncSession = Depends(get_async_session)):
     try:
         stmt = delete(product_item).where(product_item.c.id == product_id)

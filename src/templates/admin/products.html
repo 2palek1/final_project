@@ -7,7 +7,7 @@
     const getProduct = async () => {
         const productInputValue = document.getElementById("product_id").value;
 
-        const response = await fetch(`/pages/products/${productInputValue}`);
+        const response = await fetch(`/admin/products/${productInputValue}`);
 
         try {
             if (response.status === 404) {
@@ -15,7 +15,7 @@
                 alert("Продукт не существует");
             } else if (response.ok) {
                 // Если запрос выполнен успешно, перенаправляем пользователя
-                window.location.href = `/pages/products/${productInputValue}`;
+                window.location.href = `/admin/products/${productInputValue}`;
             } else {
                 // Если сервер вернул ошибку, показываем сообщение об ошибке
                 const responseData = await response.json();
@@ -73,6 +73,28 @@
             alert('An error occurred. Please try again.');
         }
     };
+
+    const deleteProduct = async (event, productId) => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(`/admin/products/delete/${productId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert('Product deleted successfully!');
+                // You may want to update the UI or reload the page after successful deletion.
+            } else {
+                const errorData = await response.json();
+                alert(`Error deleting product: ${errorData.detail}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        }
+    };
+
 </script>
 {% endblock %}
 
@@ -83,9 +105,9 @@
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/pages/admin" class="list-group-item list-group-item-action">Dashboard</a>
-                <a href="/pages/users" class="list-group-item list-group-item-action">Users</a>
-                <a href="/pages/products" class="list-group-item list-group-item-action active" aria-current="true">
+                <a href="/admin/dashboard" class="list-group-item list-group-item-action">Dashboard</a>
+                <a href="/admin/users" class="list-group-item list-group-item-action">Users</a>
+                <a href="/admin/products" class="list-group-item list-group-item-action active" aria-current="true">
                     Products
                 </a>
                 <a href="#" class="list-group-item list-group-item-action">Orders</a>
@@ -125,9 +147,7 @@
                                 <td>{{ product_item.product_image }}</td>
                                 <td>{{ product_item.price }}</td>
                                 <td>
-                                    <form method="post" action="/pages/products/delete?product_id={{ product_item.id }}">
-                                        <button type="submit" style="margin: 5px" class="btn btn-danger">Delete</button>
-                                    </form>
+                                    <button onclick="deleteProduct(event, {{ product_item.id }})" style="margin: 5px" type="button" class="btn btn-danger">Delete</button>
                                 </td>
                             </tr>
                         {% endfor %}

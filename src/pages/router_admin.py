@@ -5,8 +5,8 @@ from fastapi.templating import Jinja2Templates
 from src.products.router import get_all_products, get_product
 
 router = APIRouter(
-    prefix="/pages",
-    tags=["Pages"]
+    prefix="/admin",
+    tags=["admin"]
 )
 
 templates = Jinja2Templates(directory="src/templates/admin")
@@ -22,7 +22,7 @@ def get_login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
-@router.get("/admin")
+@router.get("/dashboard")
 def get_admin_page(request: Request):
     return templates.TemplateResponse("/admin.html", {"request": request})
 
