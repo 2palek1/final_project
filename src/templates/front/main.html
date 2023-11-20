@@ -20,7 +20,7 @@
   </div>
 
   <!-- The slideshow/carousel -->
-  <div class="carousel-inner">
+  <div class="carousel-inner" style="margin-bottom: 30px">
     <div class="carousel-item active">
       <img src="static/9573-wires-sneakers-shoes-cable-4k.jpg" alt="Logo" class="d-block w-100">
         <div class="carousel-caption">
@@ -53,4 +53,31 @@
   </button>
 </div>
 </div>
+
+
+<div class="product-container">
+    {% for product in products %}
+        <div class="card">
+            <!-- Product Image -->
+            <img src="static/{{ product.product_image }}" class="card-img-top" alt="{{ product.name }}">
+
+            <div class="card-body">
+                <!-- Product Name -->
+                <h5 class="card-title">{{ product.name }}</h5>
+
+                <!-- Product Price -->
+                <p class="card-text">${{ product.price }}</p>
+
+                <!-- Add to Cart Button -->
+                <button class="btn btn-primary add-to-cart"
+                        data-product="{{ product.name }}"
+                        data-price="{{ product.price }}">
+                    Add to cart
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
 {% endblock %}
