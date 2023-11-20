@@ -39,3 +39,7 @@ def get_services_page(request: Request):
 def get_about_page(request: Request):
     return templates.TemplateResponse("/about.html", {"request": request})
 
+
+@router.get("/products")
+def get_products_page(request: Request, products=Depends(get_all_products)):
+    return templates.TemplateResponse("/products.html", {"request": request, "products": products["data"]})
