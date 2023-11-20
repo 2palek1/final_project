@@ -17,30 +17,43 @@
 <!-- Your custom JavaScript for cart functionality -->
 <script>
   // Функция для отображения содержимого корзины
-  function displayCartItems() {
+  async function displayCartItems() {
     const cartItemsContainer = document.getElementById('cart-items');
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Очищаем содержимое корзины перед обновлением
-    cartItemsContainer.innerHTML = '';
+    try {
+      // Fetch cart data from the backend
+      const response = await fetch(`/cart/${user_id}`);
+      const data = await response.json();
 
-    // Перебираем товары в корзине и добавляем их на страницу
-    cartItems.forEach(item => {
-      const cartItem = document.createElement('div');
-      cartItem.innerHTML = `<p>${item.name} - Цена: $${item.price}</p>`;
-      cartItemsContainer.appendChild(cartItem);
-    });
+      // Check if the cart is empty
+      if (data.status === 'success' && data.data.items.length > 0) {
+        // Очищаем содержимое корзины перед обновлением
+        cartItemsContainer.innerHTML = '';
 
-    // Подсчёт общей стоимости товаров в корзине
-    const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
-    document.getElementById('total-price').textContent = `$${totalPrice}`;
+        // Перебираем товары в корзине и добавляем их на страницу
+        data.data.items.forEach(item => {
+          const cartItem = document.createElement('div');
+          cartItem.innerHTML = `<p>${item.name} - Цена: $${item.price}</p>`;
+          cartItemsContainer.appendChild(cartItem);
+        });
+
+        // Подсчёт общей стоимости товаров в корзине
+        const totalPrice = data.data.items.reduce((total, item) => total + item.price, 0);
+        document.getElementById('total-price').textContent = `$${totalPrice}`;
+      } else {
+        // Если корзина пуста или не существует
+        cartItemsContainer.innerHTML = '<p>Корзина пуста</p>';
+      }
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+    }
   }
 
   // Вызов функции для отображения содержимого корзины при загрузке страницы
   displayCartItems();
 
   // Обработчик события клика на кнопку "Купить"
-  document.getElementById('buy-button').addEventListener('click', function() {
+  document.getElementById('buy-button').addEventListener('click', async function() {
     // Получение общей стоимости товаров
     const totalPrice = parseFloat(document.getElementById('total-price').textContent.slice(1)); // Удаляем "$" из начала строки и парсим в число
 
