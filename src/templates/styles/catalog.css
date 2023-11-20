@@ -4,24 +4,28 @@
     justify-content: space-around;
     align-items: flex-start; /* Выравниваем элементы по верхнему краю */
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 100px;
 }
 
 .company-box {
-    width: 200px;
+    width: 300px;
     text-align: center; /* Выравниваем текст по центру */
     margin-bottom: 20px;
 }
 
 .company-box img {
-    width: 150px; /* Устанавливаем одинаковую ширину для всех логотипов */
+    width: 250px; /* Устанавливаем одинаковую ширину для всех логотипов */
     height: auto; /* Подстраиваем высоту под заданную ширину */
     display: block; /* Убираем пробелы по бокам от изображения */
     margin: 0 auto; /* Центрируем изображение в блоке */
 }
 
+.company-box a {
+    text-decoration: none;
+}
+
 .company-box p {
-    margin-top: 10px; /* Добавляем отступ сверху для текста */
+    margin-top: 20px; /* Добавляем отступ сверху для текста */
     margin-bottom: 0; /* Убираем нижний отступ у текста */
     font-weight: bold;
     color: #333;

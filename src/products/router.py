@@ -87,6 +87,26 @@ async def get_all_products(session: AsyncSession = Depends(get_async_session)):
         })
 
 
+@router.get("/category/{category_id}")
+async def get_products_by_category(category_id: int, session: AsyncSession = Depends(get_async_session)):
+    stmt = select(product_item).where(product_item.c.category_id == category_id)
+    try:
+        result = await session.execute(stmt)
+        product_dict = get_product_dict(result)
+        if product_dict:
+            return {
+                "status": "success",
+                "data": product_dict,
+                "details": None
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={
+            "status": "error",
+            "data": None,
+            "details": str(e)
+        })
+
+
 @router.post("/create_product")
 async def create_product(new_product_item: ProductItemSchema, session: AsyncSession = Depends(get_async_session)):
     try:
