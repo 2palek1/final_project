@@ -1,0 +1,47 @@
+.team-member {
+    text-align: center;
+    display: inline-block;
+    margin: 20px;
+}
+
+.team-member img {
+    border-radius: 50%;
+    width: 150px !important; /* Принудительно установить размер */
+    height: 150px !important; /* Принудительно установить размер */
+    object-fit: cover;
+}
+.about {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.about h2 {
+    color: #333;
+}
+
+.about-info {
+    width: 70%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.about-info p {
+    margin-bottom: 15px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.team-member {
+    text-align: center;
+    display: inline-block;
+    margin: 20px;
+}
+
+.team-member img {
+    border-radius: 50%;
+    width: 150px; /* Измените размер по вашему усмотрению */
+    height: 150px; /* Измените размер по вашему усмотрению */
+    object-fit: cover;
+}
+

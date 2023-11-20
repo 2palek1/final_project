@@ -20,3 +20,17 @@ def get_main_page(request: Request, products=Depends(get_all_products)):
 def get_main_page(request: Request):
     return templates.TemplateResponse("/cart.html", {"request": request})
 
+
+@router.get("/catalog")
+def get_main_page(request: Request):
+    return templates.TemplateResponse("/catalog.html", {"request": request})
+
+
+@router.get("/services")
+def get_main_page(request: Request):
+    return templates.TemplateResponse("/services.html", {"request": request})
+
+@router.get("/about")
+def get_main_page(request: Request):
+    return templates.TemplateResponse("/about.html", {"request": request})
+
