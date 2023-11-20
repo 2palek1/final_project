@@ -1,0 +1,28 @@
+
+.company {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start; /* Выравниваем элементы по верхнему краю */
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.company-box {
+    width: 200px;
+    text-align: center; /* Выравниваем текст по центру */
+    margin-bottom: 20px;
+}
+
+.company-box img {
+    width: 150px; /* Устанавливаем одинаковую ширину для всех логотипов */
+    height: auto; /* Подстраиваем высоту под заданную ширину */
+    display: block; /* Убираем пробелы по бокам от изображения */
+    margin: 0 auto; /* Центрируем изображение в блоке */
+}
+
+.company-box p {
+    margin-top: 10px; /* Добавляем отступ сверху для текста */
+    margin-bottom: 0; /* Убираем нижний отступ у текста */
+    font-weight: bold;
+    color: #333;
+}
