@@ -67,13 +67,50 @@
             <li class="nav-item">
               <a class="nav-link mx-2 text-uppercase" href="/main/cart"><i class="fa-solid fa-cart-shopping me-1"></i>Cart</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link mx-2 text-uppercase" href="#"><i class="fa-solid fa-circle-user me-1"></i>Account</a>
-            </li>
+              <li class="nav-item">
+                  <a class="nav-link mx-2 text-uppercase" href="#" data-bs-toggle="modal" data-bs-target="#loginRegisterModal">
+                      <i class="fa-solid fa-circle-user me-1"></i> Account
+                  </a>
+              </li>
           </ul>
         </div>
       </div>
     </nav>
+
+
+
+<!-- Login/Register Modal -->
+<div class="modal fade" id="loginRegisterModal" tabindex="-1" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginRegisterModalLabel">Login/Register</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your login and registration form goes here -->
+                <!-- Example form fields -->
+                <form>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-secondary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     {% block content %}{% endblock %}
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN0tArWtjAq8l5WqE4W1+ny5BDd+JAxIm" crossorigin="anonymous"></script>
+
 </body>
 </html>
