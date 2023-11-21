@@ -5,8 +5,10 @@ from sqlalchemy import Table, Column, Integer, String, ForeignKey, MetaData, TIM
 from src.auth.models import user, address
 from src.payment.models import user_payment_method
 
+
 metadata = MetaData()
 
+# SQLAlchemy models for Alembic migrations
 shipping_method = Table(
     "shipping_method",
     metadata,

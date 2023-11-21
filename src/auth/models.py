@@ -5,8 +5,10 @@ from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, JSON, MetaData
 
 from src.database import Base
 
+
 metadata = MetaData()
 
+# SQLAlchemy models for Alembic migrations
 role = Table(
     "role",
     metadata,

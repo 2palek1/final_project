@@ -6,6 +6,7 @@ from src.cart.models import shopping_cart
 from src.database import get_async_session
 
 
+# Utility function to convert shopping cart query result to a dictionary
 def get_cart_dict(result: ResultProxy):
     cart_dict = []
     for row in result.all():
@@ -19,7 +20,9 @@ def get_cart_dict(result: ResultProxy):
     return cart_dict
 
 
+# Async function to check if a shopping cart exists for a user, creating one if not
 async def check_cart(user_id: int, session: AsyncSession = Depends(get_async_session)):
+    # Check if the cart exists for the user
     existing_cart = await session.execute(select(shopping_cart).where(shopping_cart.c.user_id == user_id))
     cart = existing_cart.scalar_one_or_none()
     if cart is None:

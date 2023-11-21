@@ -123,6 +123,7 @@
             var username = $("#username").val();
             var password = $("#password").val();
 
+
             $.ajax({
                 url: "http://127.0.0.1:8000/auth/jwt/login",
                 method: "POST",
@@ -190,6 +191,8 @@
         }
     }
 
+
+
     function enableBodyScroll() {
         // Ensure scrolling is enabled on body
         $("body").css("overflow", "auto");
@@ -197,11 +200,6 @@
 
 </script>
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 24cd8c7d8064b2fe1e391b5ec1d3d1d3a2e4a617
 {% block content %}{% endblock %}
 
 <!-- Registration Modal -->

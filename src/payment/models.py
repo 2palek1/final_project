@@ -4,9 +4,10 @@ from sqlalchemy import Table, Column, Integer, String, ForeignKey, MetaData, TIM
 
 from src.auth.models import user
 
+
 metadata = MetaData()
 
-
+# SQLAlchemy models for Alembic migrations
 payment_type = Table(
     "payment_type",
     metadata,
@@ -25,4 +26,3 @@ user_payment_method = Table(
     Column("expire_date", TIMESTAMP, default=datetime.utcnow()),
     Column("is_default", Boolean, nullable=False)
 )
-

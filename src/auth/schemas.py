@@ -4,6 +4,7 @@ from typing import Optional
 from fastapi_users import schemas
 
 
+# Pydantic Schemas from FastAPI-users
 class UserRead(schemas.BaseUser[int]):
     id: int
     email: str

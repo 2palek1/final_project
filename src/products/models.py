@@ -3,7 +3,7 @@ from sqlalchemy import Integer, String, Table, Column, ForeignKey, MetaData
 
 metadata = MetaData()
 
-
+# SQLAlchemy models for Alembic migrations
 product_category = Table(
     "product_category",
     metadata,

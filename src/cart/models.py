@@ -3,8 +3,10 @@ from sqlalchemy import Table, Column, Integer, ForeignKey, MetaData
 from src.auth.models import user
 from src.products.models import product_item
 
+
 metadata = MetaData()
 
+# SQLAlchemy models for Alembic migrations
 shopping_cart = Table(
     "shopping_cart",
     metadata,
