@@ -133,7 +133,6 @@
                             <th>Quantity</th>
                             <th>Image</th>
                             <th>Price</th>
-                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,9 +145,6 @@
                                 <td>{{ product_item.qty_in_stock }}</td>
                                 <td>{{ product_item.product_image }}</td>
                                 <td>{{ product_item.price }}</td>
-                                <td>
-                                    <button onclick="deleteProduct(event, {{ product_item.id }})" style="margin: 5px" type="button" class="btn btn-danger">Delete</button>
-                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

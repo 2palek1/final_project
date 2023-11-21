@@ -5,7 +5,6 @@
     <title>User Page</title>
 {% endblock %}
 
-
 {% block content %}
     <!-- Specific content for the user page goes here -->
     <div class="container mt-4">
@@ -24,7 +23,16 @@
             <div class="col-md-9">
                 <!-- Your content goes here -->
                 <h2>User Details</h2>
-                <table class="table table-bordered">
+
+                <!-- Input field for user ID -->
+                <div class="mb-3">
+                    <label for="userIdInput" class="form-label">Enter User ID:</label>
+                    <input type="text" class="form-control" id="userIdInput">
+                </div>
+                <!-- Button to trigger fetching user details -->
+                <button class="btn btn-primary" onclick="fetchUserDetails()">Get User Details</button>
+
+                <table class="table table-bordered mt-3">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -39,30 +47,33 @@
                 </table>
 
                 <script>
-                    // Specify the user ID you want to retrieve
-                    const userId = 1;  // Replace with the desired user ID
+                    // Function to fetch user details based on the input value
+                    function fetchUserDetails() {
+                        // Get the user ID from the input field
+                        const userIdInput = document.getElementById('userIdInput').value;
 
-                    // Fetch the specific user from the FastAPI endpoint
-                    fetch(`http://127.0.0.1:8000/auth/users/${userId}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => response.json())
-                    .then(user => {
-                        // Display user details in the table
-                        const userDetails = document.getElementById('userDetails');
-                        userDetails.innerHTML = `
-                            <tr>
-                                <td>${user.id}</td>
-                                <td>${user.email}</td>
-                                <td>${user.username}</td>
-                                <td>${user.phone_number}</td>
-                            </tr>
-                        `;
-                    })
-                    .catch(error => console.error('Error fetching user details:', error));
+                        // Fetch the specific user from the FastAPI endpoint
+                        fetch(`http://127.0.0.1:8000/auth/users/${userIdInput}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(user => {
+                            // Display user details in the table
+                            const userDetails = document.getElementById('userDetails');
+                            userDetails.innerHTML = `
+                                <tr>
+                                    <td>${user.id}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.phone_number}</td>
+                                </tr>
+                            `;
+                        })
+                        .catch(error => console.error('Error fetching user details:', error));
+                    }
                 </script>
             </div>
         </div>
