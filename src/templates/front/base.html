@@ -104,7 +104,9 @@
                             Invalid username or password.
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a id="accountLink" class="nav-link mx-2 text-uppercase" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">
+                            <i class="fa-solid fa-circle-user me-1" style="margin-left: -24px"></i>Register
+                        </a>
                     </form>
                 </div>
             </div>
@@ -181,8 +183,90 @@
     }
 </script>
 
-
 {% block content %}{% endblock %}
+
+<!-- Registration Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationModalLabel">Register</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Registration form fields -->
+                <form id="registrationForm">
+                    <div class="mb-3">
+                        <label for="regUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="regUsername" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="regEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="regPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regPhoneNumber" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="regPhoneNumber" required>
+                    </div>
+                    <!-- Add other registration form fields as needed -->
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Add a submit event listener to the registration form
+        $("#registrationForm").submit(function (event) {
+            event.preventDefault();
+
+            var regUsername = $("#regUsername").val();
+            var regEmail = $("#regEmail").val();
+            var regPassword = $("#regPassword").val();
+            var regPhoneNumber = $("#regPhoneNumber").val();
+
+            // Make an AJAX request for registration
+            $.ajax({
+                url: "http://127.0.0.1:8000/auth/register",
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({
+                    "email": regEmail,
+                    "password": regPassword,
+                    "is_active": true,
+                    "is_superuser": false,
+                    "is_verified": false,
+                    "username": regUsername,
+                    "phone_number": regPhoneNumber,
+                    "role_id": 0
+                }),
+                success: function (response) {
+                    console.log("Registration successful:", response);
+                    // You can handle success behavior here, such as redirecting to login or showing a success message
+                    $("#registrationModal").modal("hide");
+                    $("#loginRegisterModal").modal("hide");
+                },
+                error: function (error) {
+                    console.error("Error in registration:", error);
+                    // You can handle error behavior here, such as displaying an error message
+                }
+            });
+        });
+    });
+</script>
+
+
 
 </body>
 </html>
