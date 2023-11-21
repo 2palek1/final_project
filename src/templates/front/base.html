@@ -145,12 +145,10 @@
                         updateAccountLink(username);
                         console.log("Login successful");
 
-                        localStorage.setItem("token", response.access_token);
-
                         // Allow scrolling after a delay
                         setTimeout(enableBodyScroll, 500);
+                        localStorage.setItem('jwt_token', response.access_token);
 
-                        window.location.href = "/main";
                     } else {
                         console.error("Unexpected success response:", response);
                     }
@@ -164,6 +162,17 @@
                 }
             });
         });
+        $(document).ready(function () {
+            var storedToken = localStorage.getItem('jwt_token');
+            if (storedToken) {
+            updateAccountLink('username'); // Replace 'username' with the actual username
+            $.ajaxSetup({
+                headers: {
+                    'Authorization': 'Bearer ' + storedToken
+                }
+            });
+        }
+    });
 
         // Add a hidden.bs.modal event listener to remove the modal backdrop
         $("#loginRegisterModal").on("hidden.bs.modal", function () {
