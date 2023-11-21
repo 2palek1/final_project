@@ -145,8 +145,12 @@
                         updateAccountLink(username);
                         console.log("Login successful");
 
+                        localStorage.setItem("token", response.access_token);
+
                         // Allow scrolling after a delay
                         setTimeout(enableBodyScroll, 500);
+
+                        window.location.href = "/main";
                     } else {
                         console.error("Unexpected success response:", response);
                     }
@@ -181,8 +185,14 @@
         // Ensure scrolling is enabled on body
         $("body").css("overflow", "auto");
     }
+
 </script>
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 24cd8c7d8064b2fe1e391b5ec1d3d1d3a2e4a617
 {% block content %}{% endblock %}
 
 <!-- Registration Modal -->
