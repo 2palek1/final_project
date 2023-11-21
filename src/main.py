@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.auth.base_config import fastapi_users, auth_backend
 from src.products.router import router as router_products
@@ -15,6 +16,18 @@ from redis import asyncio as aioredis
 
 app = FastAPI(
     title="Final Project"
+)
+
+
+origins = ["http://127.0.0.1:8000", "http://localhost:8000", "http://localhost:3000"]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

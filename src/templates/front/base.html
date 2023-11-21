@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="styles/main.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -68,9 +70,9 @@
               <a class="nav-link mx-2 text-uppercase" href="/main/cart"><i class="fa-solid fa-cart-shopping me-1"></i>Cart</a>
             </li>
               <li class="nav-item">
-                  <a class="nav-link mx-2 text-uppercase" href="#" data-bs-toggle="modal" data-bs-target="#loginRegisterModal">
-                      <i class="fa-solid fa-circle-user me-1"></i> Account
-                  </a>
+                <a id="accountLink" class="nav-link mx-2 text-uppercase" href="#" data-bs-toggle="modal" data-bs-target="#loginRegisterModal">
+                    <i class="fa-solid fa-circle-user me-1"></i> Account
+                </a>
               </li>
           </ul>
         </div>
@@ -78,39 +80,109 @@
     </nav>
 
 
-
 <!-- Login/Register Modal -->
-<div class="modal fade" id="loginRegisterModal" tabindex="-1" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginRegisterModalLabel">Login/Register</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Your login and registration form goes here -->
-                <!-- Example form fields -->
-                <form>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <button type="submit" class="btn btn-secondary">Register</button>
-                </form>
+    <div class="modal fade" id="loginRegisterModal" tabindex="-1" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginRegisterModalLabel">Login/Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Your login and registration form goes here -->
+                    <!-- Example form fields -->
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div id="loginError" class="alert alert-danger d-none" role="alert">
+                            Invalid username or password.
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-    {% block content %}{% endblock %}
+<script>
+    $(document).ready(function () {
+        // Add a submit event listener to the login form
+        $("#loginForm").submit(function (event) {
+            event.preventDefault();
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN0tArWtjAq8l5WqE4W1+ny5BDd+JAxIm" crossorigin="anonymous"></script>
+            var username = $("#username").val();
+            var password = $("#password").val();
+
+            $.ajax({
+                url: "http://127.0.0.1:8000/auth/jwt/login",
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                data: {
+                    "grant_type": "",
+                    "username": username,
+                    "password": password,
+                    "scope": "",
+                    "client_id": "",
+                    "client_secret": ""
+                },
+                success: function (response, textStatus, xhr) {
+                    if (xhr.status === 204) {
+                        // Close the modal and update the account link
+                        $("#loginRegisterModal").modal("hide");
+                        updateAccountLink(username);
+                        console.log("Login successful");
+
+                        // Allow scrolling after a delay
+                        setTimeout(enableBodyScroll, 500);
+                    } else {
+                        console.error("Unexpected success response:", response);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status === 400) {
+                        $("#loginError").removeClass("d-none").text("Invalid username or password.");
+                    } else {
+                        console.error("Unexpected error response:", errorThrown);
+                    }
+                }
+            });
+        });
+
+        // Add a hidden.bs.modal event listener to remove the modal backdrop
+        $("#loginRegisterModal").on("hidden.bs.modal", function () {
+            $(".modal-backdrop").remove();
+        });
+    });
+
+    function updateAccountLink(username) {
+        if (username) {
+            // Update the account link to display the username
+            $("#accountLink").text(username).attr("href", "/profile");
+        } else {
+            // If no username, revert to the default "Account" link
+            $("#accountLink").text("Account").attr("href", "#");
+        }
+    }
+
+    function enableBodyScroll() {
+        // Ensure scrolling is enabled on body
+        $("body").css("overflow", "auto");
+    }
+</script>
+
+
+{% block content %}{% endblock %}
 
 </body>
 </html>
