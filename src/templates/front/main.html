@@ -69,10 +69,11 @@
                 <!-- Product Price -->
                 <p class="card-text">${{ product.price }}</p>
 
-                <!-- Add to Cart Button -->
+                    <!-- Add to Cart Button -->
                 <button class="btn btn-primary add-to-cart"
                         data-product="{{ product.name }}"
-                        data-price="{{ product.price }}">
+                        data-price="{{ product.price }}"
+                        data-product-id="{{ product.id }}">
                     Add to cart
                 </button>
             </div>
